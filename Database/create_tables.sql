@@ -1,13 +1,13 @@
 DROP TABLE IF EXISTS UnitType;
 CREATE TABLE UnitType (
-    typeID      CHAR(3),
+    typeID      INT(4),
     atributes   CHAR(200),
     PRIMARY KEY (typeID)
 );
 
 DROP TABLE IF EXISTS Unit;
 CREATE TABLE Unit (
-   unitID CHAR(3),
+   unitID INT(4),
    typeID CHAR(3),
    PRIMARY KEY (unitID),
    FOREIGN KEY (typeID) REFERENCES UnitType(typeID)
@@ -15,7 +15,7 @@ CREATE TABLE Unit (
 
 DROP TABLE IF EXISTS Cust;
 CREATE TABLE Cust (
-    custID  CHAR(3),
+    custID  INT(4),
     name    CHAR(50) NOT NULL,
     email   CHAR(50) NOT NULL,
     PRIMARY KEY (custID)
@@ -23,7 +23,7 @@ CREATE TABLE Cust (
 
 DROP TABLE IF EXISTS Proj;
 CREATE TABLE Proj (
-    custID CHAR(3),
+    custID INT(4),
     projID CHAR(3),
     PRIMARY KEY (projID),
     FOREIGN KEY (custID) REFERENCES Cust(custID)
@@ -43,7 +43,7 @@ CREATE TABLE Proj (
 
 DROP TABLE IF EXISTS Reading;
 CREATE TABLE Reading(
-    unitID      CHAR(3),
+    unitID      INT(4),
     dt          DATETIME,
     projID      CHAR(3),
     valOne      DECIMAL(3,2),
