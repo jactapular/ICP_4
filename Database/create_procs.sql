@@ -1,3 +1,5 @@
+##PROCEDURES TO HANDLE SAFE DATABASE MANIPULATION - to be called by front end
+
 DROP PROCEDURE IF EXISTS addCust;
 DELIMITER $$
 CREATE PROCEDURE addCust(
@@ -48,6 +50,31 @@ CREATE PROCEDURE addProj(
         END IF;
     END $$
 DELIMITER ;
+/*
+DROP PROCEDURE IF EXISTS addUnit;
+DELIMITER $$
+CREATE PROCEDURE addUnit(
+    n CHAR(50),
+    i CHAR(50)
+    )
+    COMMENT 'Get next Proj ID and add new proj'
+    BEGIN
+        DECLARE c INT(5);
+        IF EXISTS (SELECT custID FROM Cust WHERE custID = i) THEN
+            SET c = (SELECT COUNT(*) FROM Proj);
+            IF (c > 0 && c < 10000) THEN 
+                SET @id = (SELECT (MAX(projID)+1) FROM Proj);
+                INSERT INTO Proj (custID, projID, projName) 
+                VALUES (i, @id, n);
+            ELSEIF (c = 0) THEN
+                INSERT INTO Proj (custID, projID, projName) 
+                VALUES (i, 0001, n); 
+            ELSE 
+                SELECT 'project table exceeds limit of 9999 entries';
+            END IF;
+        END IF;
+    END $$
+DELIMITER ;
 
 
 DROP PROCEDURE IF EXISTS test;
@@ -58,4 +85,4 @@ CREATE PROCEDURE test()
         SELECT 'test';
     END $$
 DELIMITER ;
-
+*/

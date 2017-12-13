@@ -30,16 +30,25 @@ CREATE TABLE Proj (
     FOREIGN KEY (custID) REFERENCES Cust(custID)
 );
 
--- DROP TABLE IF EXISTS Loc;
--- CREATE TABLE Loc (
---     locID
---     east
---     north
---     rl
---     treeCover
---     grouCover
---     matType
--- )
+DROP TABLE IF EXISTS Mat;
+CREATE TABLE Mat (
+    matID       INT(4),
+    descr       CHAR(200),
+    PRIMARY KEY (matID)
+);
+
+DROP TABLE IF EXISTS Loc;
+CREATE TABLE Loc (
+    locID       INT(4),
+    east        DECIMAL(6,2),
+    north       DECIMAL(6,2),
+    rl          DECIMAL(4,2),
+    treeCover   DECIMAL(2,2),
+    matID       INT(4),
+    comment     CHAR(200),
+    PRIMARY KEY (locID),
+    FOREIGN KEY (matID) REFERENCES Mat(matID)
+);
 
 
 DROP TABLE IF EXISTS Reading;
@@ -47,6 +56,7 @@ CREATE TABLE Reading(
     unitID      INT(4),
     dt          DATETIME,
     projID      INT(4),
+    locID       INT(4),
     valOne      DECIMAL(3,2),
     valTwo      DECIMAL(3,2),
     valThree    DECIMAL(3,2),
@@ -55,7 +65,8 @@ CREATE TABLE Reading(
     valSix      DECIMAL(3,2),        
     PRIMARY KEY (unitID,dt),
     FOREIGN KEY (projID) REFERENCES Proj(projID),
-    FOREIGN KEY (unitID) REFERENCES Unit(unitID)
+    FOREIGN KEY (unitID) REFERENCES Unit(unitID),
+    FOREIGN KEY (locID) REFERENCES Loc(locID)
 );
 
 -- DROP TABLE IF EXISTS ValOne;
