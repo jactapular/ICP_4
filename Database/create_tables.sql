@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS Proj;
 CREATE TABLE Proj (
     custID INT(4),
     projID INT(4),
+    projName CHAR(200) NOT NULL,
     PRIMARY KEY (projID),
     FOREIGN KEY (custID) REFERENCES Cust(custID)
 );

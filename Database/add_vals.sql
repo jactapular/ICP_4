@@ -1,5 +1,6 @@
 #customers
-INSERT INTO Cust VALUES ('001','Jack Downes','14843574@student.curtin.edu.au');
+CALL addCust('joe bloggs','joebloggs@email.com');
+CALL addCust('jack downes','14843574@student.curtin.edu.au');
 
 #Projects
-INSERT INTO Proj VALUES ()
+CALL addProj('database testing', '2');
