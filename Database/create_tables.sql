@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS UnitType;
 CREATE TABLE UnitType (
-    typeID CHAR(3),
-    atributes CHAR(200),
+    typeID      CHAR(3),
+    atributes   CHAR(200),
     PRIMARY KEY (typeID)
 );
 
@@ -15,9 +15,9 @@ CREATE TABLE Unit (
 
 DROP TABLE IF EXISTS Cust;
 CREATE TABLE Cust (
-    custID CHAR(3),
-    name CHAR(50) NOT NULL,
-    email CHAR(50) NOT NULL,
+    custID  CHAR(3),
+    name    CHAR(50) NOT NULL,
+    email   CHAR(50) NOT NULL,
     PRIMARY KEY (custID)
 );
 
@@ -43,20 +43,26 @@ CREATE TABLE Proj (
 
 DROP TABLE IF EXISTS Reading;
 CREATE TABLE Reading(
-    unitID CHAR(3),
-    dt CHAR(3),
-    projID CHAR(3),
+    unitID      CHAR(3),
+    dt          DATETIME,
+    projID      CHAR(3),
+    valOne      DECIMAL(3,2),
+    valTwo      DECIMAL(3,2),
+    valThree    DECIMAL(3,2),
+    valFour     DECIMAL(3,2),
+    valFive     DECIMAL(3,2),
+    valSix      DECIMAL(3,2),        
     PRIMARY KEY (unitID,dt),
     FOREIGN KEY (projID) REFERENCES Proj(projID),
     FOREIGN KEY (unitID) REFERENCES Unit(unitID)
 );
 
-DROP TABLE IF EXISTS ValOne;
-CREATE TABLE ValOne (
-    unitID CHAR(3),
-    dt CHAR(3),
-    val DECIMAL(3,2) NOT NULL,
-    PRIMARY KEY (unitID,dt),
-    FOREIGN KEY (unitID) REFERENCES Unit(unitID),
-    FOREIGN KEY (dt) REFERENCES Reading(dt)     
-);
+-- DROP TABLE IF EXISTS ValOne;
+-- CREATE TABLE ValOne (
+--     unitID CHAR(3),
+--     dt CHAR(3),
+--     val DECIMAL(3,2) NOT NULL,
+--     PRIMARY KEY (unitID,),
+--     FOREIGN KEY (unitID) REFERENCES Unit(unitID),
+--     FOREIGN KEY (dt) REFERENCES Reading(dt)     
+-- );
