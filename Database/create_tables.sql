@@ -8,7 +8,7 @@ CREATE TABLE UnitType (
 DROP TABLE IF EXISTS Unit;
 CREATE TABLE Unit (
    unitID INT(4),
-   typeID CHAR(3),
+   typeID INT(4),
    PRIMARY KEY (unitID),
    FOREIGN KEY (typeID) REFERENCES UnitType(typeID)
 );
@@ -24,7 +24,7 @@ CREATE TABLE Cust (
 DROP TABLE IF EXISTS Proj;
 CREATE TABLE Proj (
     custID INT(4),
-    projID CHAR(3),
+    projID INT(4),
     PRIMARY KEY (projID),
     FOREIGN KEY (custID) REFERENCES Cust(custID)
 );
@@ -45,7 +45,7 @@ DROP TABLE IF EXISTS Reading;
 CREATE TABLE Reading(
     unitID      INT(4),
     dt          DATETIME,
-    projID      CHAR(3),
+    projID      INT(4),
     valOne      DECIMAL(3,2),
     valTwo      DECIMAL(3,2),
     valThree    DECIMAL(3,2),
