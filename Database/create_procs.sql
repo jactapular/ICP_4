@@ -26,6 +26,8 @@ CREATE PROCEDURE addCust(
     END $$
 DELIMITER ;
 
+
+
 DROP PROCEDURE IF EXISTS addProj;
 DELIMITER $$
 CREATE PROCEDURE addProj(
@@ -35,6 +37,7 @@ CREATE PROCEDURE addProj(
     COMMENT 'Get next Proj ID and add new proj'
     BEGIN
         DECLARE c INT(5);
+#TODO: if name exists deny
         IF EXISTS (SELECT custID FROM Cust WHERE custID = i) THEN
             SET c = (SELECT COUNT(*) FROM Proj);
             IF (c > 0 && c < 10000) THEN 
@@ -50,33 +53,56 @@ CREATE PROCEDURE addProj(
         END IF;
     END $$
 DELIMITER ;
-/*
+
+DROP PROCEDURE IF EXISTS addUnitType;
+DELIMITER $$
+CREATE PROCEDURE addUnitType(
+    a CHAR(200)
+    )
+    COMMENT 'Get next UnitTypeID and add new unitType'
+    BEGIN
+        DECLARE c INT(5);
+        SET c = (SELECT COUNT(*) FROM UnitType);
+        IF (c > 0 && c < 10000) THEN 
+            SET @id = (SELECT (MAX(typeID)+1) FROM UnitType);
+            INSERT INTO UnitType(typeID, attributes) 
+            VALUES (@id, a);
+        ELSEIF (c = 0) THEN
+            INSERT INTO UnitType(typeID, attributes) 
+            VALUES (0001, a); 
+        ELSE
+            SELECT 'UnitType table exceeds limit of 9999 entries';
+        END IF;
+    END $$
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS addUnit;
 DELIMITER $$
 CREATE PROCEDURE addUnit(
-    n CHAR(50),
-    i CHAR(50)
+    t INT(4)
     )
-    COMMENT 'Get next Proj ID and add new proj'
+    COMMENT 'Get next UnitID and add new unit'
     BEGIN
         DECLARE c INT(5);
-        IF EXISTS (SELECT custID FROM Cust WHERE custID = i) THEN
-            SET c = (SELECT COUNT(*) FROM Proj);
+        IF EXISTS (SELECT typeID FROM UnitType WHERE typeID = t) THEN
+            SET c = (SELECT COUNT(*) FROM Unit);
             IF (c > 0 && c < 10000) THEN 
-                SET @id = (SELECT (MAX(projID)+1) FROM Proj);
-                INSERT INTO Proj (custID, projID, projName) 
-                VALUES (i, @id, n);
+                SET @id = (SELECT (MAX(unitID)+1) FROM Unit);
+                INSERT INTO Unit(unitID, typeID) 
+                VALUES (@id, t);
             ELSEIF (c = 0) THEN
-                INSERT INTO Proj (custID, projID, projName) 
-                VALUES (i, 0001, n); 
-            ELSE 
-                SELECT 'project table exceeds limit of 9999 entries';
+                INSERT INTO Unit(unitID, typeID) 
+                VALUES (0001, t); 
+            ELSE
+                SELECT 'Unit table exceeds limit of 9999 entries';
             END IF;
+        ELSE
+            SELECT 'unit type does not exist' AS Error, t AS typeID;
         END IF;
     END $$
 DELIMITER ;
 
-
+/*
 DROP PROCEDURE IF EXISTS test;
 DELIMITER $$
 CREATE PROCEDURE test()

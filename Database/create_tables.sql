@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS UnitType;
 CREATE TABLE UnitType (
     typeID      INT(4),
-    atributes   CHAR(200),
+    attributes   CHAR(200),
     PRIMARY KEY (typeID)
 );
 
@@ -40,11 +40,11 @@ CREATE TABLE Mat (
 DROP TABLE IF EXISTS Loc;
 CREATE TABLE Loc (
     locID       INT(4),
+    matID       INT(4),
     east        DECIMAL(6,2),
     north       DECIMAL(6,2),
     rl          DECIMAL(4,2),
     treeCover   DECIMAL(2,2),
-    matID       INT(4),
     comment     CHAR(200),
     PRIMARY KEY (locID),
     FOREIGN KEY (matID) REFERENCES Mat(matID)
