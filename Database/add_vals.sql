@@ -10,3 +10,9 @@ CALL addUnitType('prototype_1');
 
 #Unit
 CALL addUnit('0001');
+
+#Loc
+CALL addLoc('0001');
+
+#Mat
+CALL addMat('this is a test material, would define brickX and throw other variables into an excel spreadsheet');

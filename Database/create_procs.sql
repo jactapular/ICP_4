@@ -11,7 +11,7 @@ CREATE PROCEDURE addCust(
         DECLARE c INT(5);
         SET c = (SELECT COUNT(*) FROM Cust);
         IF NOT EXISTS (SELECT email FROM Cust WHERE email = e) THEN
-            IF (c > 0 && c < 10000) THEN 
+            IF (c > 0 && c < 9999) THEN 
                 SET @id = (SELECT (MAX(custID)+1) FROM Cust);
                 INSERT INTO Cust (custID, name, email)
                 VALUES (@id, n, e);
@@ -40,7 +40,7 @@ CREATE PROCEDURE addProj(
 #TODO: if name exists deny
         IF EXISTS (SELECT custID FROM Cust WHERE custID = i) THEN
             SET c = (SELECT COUNT(*) FROM Proj);
-            IF (c > 0 && c < 10000) THEN 
+            IF (c > 0 && c < 9999) THEN 
                 SET @id = (SELECT (MAX(projID)+1) FROM Proj);
                 INSERT INTO Proj (custID, projID, projName) 
                 VALUES (i, @id, n);
@@ -63,7 +63,7 @@ CREATE PROCEDURE addUnitType(
     BEGIN
         DECLARE c INT(5);
         SET c = (SELECT COUNT(*) FROM UnitType);
-        IF (c > 0 && c < 10000) THEN 
+        IF (c > 0 && c < 9999) THEN 
             SET @id = (SELECT (MAX(typeID)+1) FROM UnitType);
             INSERT INTO UnitType(typeID, attributes) 
             VALUES (@id, a);
@@ -86,7 +86,7 @@ CREATE PROCEDURE addUnit(
         DECLARE c INT(5);
         IF EXISTS (SELECT typeID FROM UnitType WHERE typeID = t) THEN
             SET c = (SELECT COUNT(*) FROM Unit);
-            IF (c > 0 && c < 10000) THEN 
+            IF (c > 0 && c < 9999) THEN 
                 SET @id = (SELECT (MAX(unitID)+1) FROM Unit);
                 INSERT INTO Unit(unitID, typeID) 
                 VALUES (@id, t);
@@ -102,13 +102,50 @@ CREATE PROCEDURE addUnit(
     END $$
 DELIMITER ;
 
-/*
-DROP PROCEDURE IF EXISTS test;
+DROP PROCEDURE IF EXISTS addLoc;
 DELIMITER $$
-CREATE PROCEDURE test()
-    COMMENT 'Test a single line select statement proc'
+CREATE PROCEDURE addLoc(
+    m INT(4)
+    )
+    COMMENT 'create new location ID, other vals are NULL'
     BEGIN
-        SELECT 'test';
+        DECLARE c INT(5);
+        IF EXISTS (SELECT matID FROM Mat WHERE matID = m) THEN
+            SET c = (SELECT COUNT(*) FROM Loc);
+            IF (c > 0 && c < 9999) THEN 
+                SET @id = (SELECT (MAX(locID)+1) FROM Loc);
+                INSERT INTO Loc (locID) 
+                VALUES (@id);
+            ELSEIF (c = 0) THEN
+                INSERT INTO Loc (locID) 
+                VALUES (0001); 
+            ELSE 
+                SELECT 'project table exceeds limit of 9999 entries';
+            END IF;
+        END IF;
     END $$
 DELIMITER ;
-*/
+
+DROP PROCEDURE IF EXISTS addMat;
+DELIMITER $$
+CREATE PROCEDURE addMat(
+    d CHAR(200)
+    )
+    COMMENT 'create new Material ID, details recorded in comment'
+    BEGIN
+        DECLARE c INT(5);
+        SET c = (SELECT COUNT(*) FROM Mat);
+        IF (c > 0 && c < 9999) THEN 
+            SET @id = (SELECT (MAX(matID)+1) FROM Mat);
+            INSERT INTO Mat(matID, descr) 
+            VALUES (@id, d);
+        ELSEIF (c = 0) THEN
+            INSERT INTO Mat(matID, descr) 
+            VALUES (0001, d); 
+        ELSE
+            SELECT 'Unit table exceeds limit of 9999 entries';
+        END IF;
+    END $$
+DELIMITER ;
+
+#READINGS

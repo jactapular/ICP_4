@@ -23,7 +23,7 @@ import java.io.*;               // Needed for file I/O
 
 import java.lang.*;
 
-public class Employee extends JFrame
+public class Sensor extends JFrame
 {
 	//Variable for frame window
 	static JFrame frame;
@@ -59,10 +59,10 @@ public class Employee extends JFrame
 
 	public static void main(String args[])
 	{
-		new Employee();
+		new Sensor();
 	}	
 
-	public Employee()
+	public Sensor()
 	{
 		super("Employee Details");
 
