@@ -148,4 +148,29 @@ CREATE PROCEDURE addMat(
     END $$
 DELIMITER ;
 
-#READINGS
+DROP PROCEDURE IF EXISTS addRead;
+DELIMITER $$
+CREATE PROCEDURE addRead(
+    u INT(4),       #unit ID
+    dt DATETIME,    #timestamp of recording time
+    p INT(4),       #project ID
+    l INT(4),        #location ID
+    a DECIMAL(3,2), #sensor 1 value....
+    b DECIMAL(3,2),
+    c DECIMAL(3,2),
+    d DECIMAL(3,2),
+    e DECIMAL(3,2),
+    f DECIMAL(3,2)
+    ) #...sensor 6 value
+    COMMENT 'add a new reading to the Reading table, comes from LoRa Server'
+    BEGIN 
+        IF EXISTS (SELECT unitID FROM Unit WHERE unitID = u) &&
+        EXISTS (SELECT projID FROM Proj WHERE projID = p) &&
+        EXISTS (SELECT locID FROM Loc WHERE locID = l) THEN
+            INSERT INTO Reading VALUES(u, dt, p, l, a, b, c, d, e, f);
+        ELSE
+            SELECT 'ID does not exist, review table entries and try again';
+        END IF;
+    END$$
+DELIMITER ;
+
