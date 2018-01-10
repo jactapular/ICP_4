@@ -10,16 +10,8 @@ try:
     # t = datetime.now().date()
     t = strftime('%Y-%m-%d %H:%M:%S')
 
-    #query = ("CALL addRead "
-    #    "(1, '%s', 1, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)")
-
     cursor = conn.cursor()
-    #cursor.execute(query, t)
-    cursor.execute("INSERT INTO Reading VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",(1, t, 1, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
-    # if cursor.lastrowid:
-    #    print('last insert id', cursor.lastrowid)
-    # else:
-    #    print('last insert id not found')
+    cursor.execute("CALL addRead(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",(1, t, 1, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
 
     conn.commit()
 except Error as error:
