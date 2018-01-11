@@ -1,3 +1,10 @@
+Script to listen for new packets from sensors on LoRaWAN gateway and forward to mysql database.
+
+*Files*
+-config.ini: config file for DB access
+-python_mysql_dbconfig.py: helper script to access DB
+-transfer.py: transfers appropriate packets to DB
+
 *requires:*
   sudo apt-get install python-configparser
   python3

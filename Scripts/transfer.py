@@ -1,3 +1,5 @@
+# script to listen for new packets from sensors and forward to mysql database
+
 from mysql.connector import MySQLConnection, Error
 from python_mysql_dbconfig import read_db_config
 from datetime import date, datetime, timedelta, time
@@ -20,18 +22,3 @@ except Error as error:
 finally:
     cursor.close()
     conn.close()
-
-# def insert_reading():
-#     try:
-#         cnx = connection.MySQLConnection(user='tran', password= 'ICP1',
-#                                     host= 'localhost',
-#                                     database= 'ICP_TEST')
-#     except mysql.connector.Error as err:
-#         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-#             print("Something is wrong with your user name or password")
-#         elif err.errno == errorcode.ER_BAD_DB_ERROR:
-#             print("Database does not exist")
-#         else:
-#             print(err)
-#     else:
-#         cnx.close()
