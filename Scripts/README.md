@@ -10,7 +10,7 @@ Script to listen for new packets from sensors on LoRaWAN gateway and forward to 
   python3
 
 -pip install mysql-connector-python
--http://www.mysqltutorial.org/python-connecting-mysql-databases/
+http://www.mysqltutorial.org/python-connecting-mysql-databases/
 -http://www.mysqltutorial.org/python-mysql-insert/
 
 * LoRaWan Gateway example:*
