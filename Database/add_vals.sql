@@ -9,7 +9,6 @@ CALL addUnitType('prototype_1');
 
 #Unit
 CALL addUnit('0001','0x00540006');
-CALL addUnit('0001','0x00540006');
 CALL addUnit('0001','0x00540007');
 CALL addUnit('0001','0x00540008');
 
