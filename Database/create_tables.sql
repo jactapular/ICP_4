@@ -53,7 +53,7 @@ CREATE TABLE Loc (
 
 DROP TABLE IF EXISTS Reading;
 CREATE TABLE Reading(
-    unitID      INT(4),
+    unitID      CHAR(10),
     dt          DATETIME,
     projID      INT(4),
     locID       INT(4),
