@@ -79,23 +79,15 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS addUnit;
 DELIMITER $$
 CREATE PROCEDURE addUnit(
-    t INT(4)
+    t INT(4),
+    i CHAR(10)
     )
     COMMENT 'Get next UnitID and add new unit'
     BEGIN
         DECLARE c INT(5);
         IF EXISTS (SELECT typeID FROM UnitType WHERE typeID = t) THEN
-            SET c = (SELECT COUNT(*) FROM Unit);
-            IF (c > 0 && c < 9999) THEN 
-                SET @id = (SELECT (MAX(unitID)+1) FROM Unit);
-                INSERT INTO Unit(unitID, typeID) 
-                VALUES (@id, t);
-            ELSEIF (c = 0) THEN
-                INSERT INTO Unit(unitID, typeID) 
-                VALUES (0001, t); 
-            ELSE
-                SELECT 'Unit table exceeds limit of 9999 entries';
-            END IF;
+            INSERT INTO Unit(unitID, typeID) 
+            VALUES (i, t); 
         ELSE
             SELECT 'unit type does not exist' AS Error, t AS typeID;
         END IF;

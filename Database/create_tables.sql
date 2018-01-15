@@ -7,7 +7,7 @@ CREATE TABLE UnitType (
 
 DROP TABLE IF EXISTS Unit;
 CREATE TABLE Unit (
-   unitID INT(4),
+   unitID CHAR(10),
    typeID INT(4),
    PRIMARY KEY (unitID),
    FOREIGN KEY (typeID) REFERENCES UnitType(typeID)

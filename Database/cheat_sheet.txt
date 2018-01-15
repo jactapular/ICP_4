@@ -1,0 +1,36 @@
+login as root:
+    > mysql -u root -p
+    >'password'
+
+(admin has been created)
+(tran has been created)
+
+create user as root
+    >CREATE USER 'jeffrey'@'localhost'
+    >IDENTIFIED BY 'new_password' PASSWORD EXPIRE;
+
+    or
+
+    >CREATE USER 'jeffrey'@'localhost'
+        IDENTIFIED BY 'new_password' PASSWORD EXPIRE;
+
+create database as root:
+    >CREATE DATABASE db1;
+
+grant permissions as root:
+    >GRANT ALL ON db1.* TO 'jeffrey'@'localhost';
+
+other commands:
+
+    >SHOW schemas;
+    >USE db1;
+    >SYSTEM <terminal command>
+    >SHOW TABLES
+    >DESC <table_name>
+    >\. <file_name> | SOURCE <file_name>
+    >
+
+    -GROUP BY
+    -JOIN
+
+SELECT empno, firstname, lastname FROM Emp e1 WHERE salary < (SELECT salary FROM Emp WHERE workdemp = e1.workdept);
