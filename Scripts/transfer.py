@@ -15,7 +15,7 @@ def send():
 
         cursor = conn.cursor()
         cursor.execute("CALL addRead(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",(1, t, 1, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
-        print "add reading at: ", t
+        print("add reading at: ", t)
         conn.commit()
     except Error as error:
         print(error)
@@ -27,7 +27,6 @@ def send():
 #
 def main():
     while True:
-        #send()
         send()
         sleep(5)
 
