@@ -9,21 +9,16 @@ from mysql.connector import MySQLConnection, Error
 
 ###### FOR TESTING ######
 from time import strftime, sleep
-    try:
-    db_config = {
-        'host' = '10.0.10.220:3306'
-        'database' = 'ICP'
-        'user' = 'trans'
-        'password' = 'GreenX0123'
-    }
-            # # unit ID
-            # uID = request.view_args["Time"]
-            # # time
-            # time = request.view_args["DevAddr"]
-            # # temp 
-            # tmp = 
-            # #humidity
-            # hum =
+
+try:
+    # # unit ID
+    # uID = request.view_args["Time"]
+    # # time
+    # time = request.view_args["DevAddr"]
+    # # temp 
+    # tmp = 
+    # #humidity
+    # hum =
     # unit ID
     uID = 0x00540006;
     # time
@@ -32,14 +27,17 @@ from time import strftime, sleep
     tmp = 0x1A
     #humidity = 37
     hum = 25
-        conn = MySQLConnection(**db_config)
-        cursor = conn.cursor()
-        cursor.execute("CALL addRead(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",(uID, time, 1, 1, int(tmp, 16), int(hum, 16), 0.0, 0.0, 0.0, 0.0))
-        print "add reading at: ", t
-        conn.commit()
-    except Error as error:
-        print(error)
+    conn = MySQLConnection( host = '10.0.10.220:3306',
+                            database = 'ICP',
+                            user = 'trans',
+                            password = 'GreenX0123')
+    cursor = conn.cursor()
+    cursor.execute("CALL addRead(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",(uID, time, 1, 1, int(tmp, 16), int(hum, 16), 0.0, 0.0, 0.0, 0.0))
+    # print("add reading at: ", time)
+    conn.commit()
+except Error as error:
+    print(error)
 
-    finally:
-        cursor.close()
-        conn.close()
+finally:
+    cursor.close()
+    conn.close()
