@@ -27,7 +27,7 @@ curs = conn.cursor()
     # hum = request.data["DevEUI_uplink"."payload_hex"."mydata[1]"]
     # hum = int(hum, 16)
     # unit ID
-uID = str(0x00540006);
+uID = '0x00540006';
     # time
 time = strftime('%Y-%m-%d %H:%M:%S')
     # temp = 26
@@ -35,14 +35,15 @@ tmp = 0x1A
     #humidity = 37
 hum = 0x25
 
-add_read = ("CALL addCust('testy Mcgee', 'test@email.com')")
+#add_read = ("CALL addCust('testy Mcgee', 'test@email.com')")
 #data = ('0123', time, 1, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
-#add_read = ("CALL addRead(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
-#data = ('0123', time, 1, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+add_read = ("CALL addRead(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
+data = (uID, time, 1, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
+#add_read = ("CALL addRead('0x00540006', '2017-12-19 15:22:00', 1, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)")
 
-curs.execute(add_read)
+curs.execute(add_read, data)
 
 conn.commit()
 #except Error as error:
