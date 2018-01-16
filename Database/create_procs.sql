@@ -143,7 +143,7 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS addRead;
 DELIMITER $$
 CREATE PROCEDURE addRead(
-    u INT(4),       #unit ID
+    u CHAR(10),       #unit ID
     dt DATETIME,    #timestamp of recording time
     p INT(4),       #project ID
     l INT(4),        #location ID
