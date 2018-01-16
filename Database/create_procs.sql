@@ -143,16 +143,16 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS addRead;
 DELIMITER $$
 CREATE PROCEDURE addRead(
-    u CHAR(10),       #unit ID
+    u VARCHAR(100),       #unit ID
     dt DATETIME,    #timestamp of recording time
     p INT(4),       #project ID
     l INT(4),        #location ID
-    a DECIMAL(3,2), #sensor 1 value....
-    b DECIMAL(3,2),
-    c DECIMAL(3,2),
-    d DECIMAL(3,2),
-    e DECIMAL(3,2),
-    f DECIMAL(3,2)
+    a FLOAT, #sensor 1 value....
+    b FLOAT,
+    c FLOAT,
+    d FLOAT,
+    e FLOAT,
+    f FLOAT
     ) #...sensor 6 value
     COMMENT 'add a new reading to the Reading table, comes from LoRa Server'
     BEGIN 
