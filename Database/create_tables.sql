@@ -7,7 +7,7 @@ CREATE TABLE UnitType (
 
 DROP TABLE IF EXISTS Unit;
 CREATE TABLE Unit (
-   unitID CHAR(10),
+   unitID VARCHAR(10),
    typeID INT(4),
    PRIMARY KEY (unitID),
    FOREIGN KEY (typeID) REFERENCES UnitType(typeID)
@@ -53,7 +53,7 @@ CREATE TABLE Loc (
 
 DROP TABLE IF EXISTS Reading;
 CREATE TABLE Reading(
-    unitID      CHAR(10),
+    unitID      VARCHAR(100),
     dt          DATETIME,
     projID      INT(4),
     locID       INT(4),
