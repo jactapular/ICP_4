@@ -1,4 +1,4 @@
-/*******************************************************************************
+  /*******************************************************************************
  * Modified by Thomas Laurenson, 2017
  * Specific modifications for use of Dragino LoRaSHield on AU915, sub-band 2
  *
@@ -28,8 +28,10 @@
 #include <Wire.h>
 #include <SI7021.h>
 #include <SPI.h>
-SI7021 sensor;
-
+#include <OneWire.h> 
+#include <DallasTemperature.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_TSL2561_U.h>
 
 // LoRaWAN NwkSKey, network session key
 // This is the default Semtech key, which is used by the prototype TTN
@@ -54,7 +56,11 @@ void os_getDevEui (u1_t* buf) { }
 void os_getDevKey (u1_t* buf) { }
 
 //static uint8_t mydata[] = "Hello, world!?";
-uint8_t mydata[2] = {0x00,0x00};
+uint8_t mydata[5];
+
+//Set Project ID
+mydata[4] = 2;
+
 static osjob_t sendjob;
 
 // Schedule TX every this many seconds (might become longer due to duty
@@ -68,6 +74,29 @@ const lmic_pinmap lmic_pins = {
     .rst = 4,
     .dio = {3,5,6},
 };
+
+/********************************************************************/
+/*                  Waterproof Sensor Setup                         */
+/********************************************************************/
+
+// Data wire is plugged into pin 13 on the Arduino 
+#define ONE_WIRE_BUS 13
+/********************************************************************/
+// Setup a oneWire instance to communicate with any OneWire devices  
+// (not just Maxim/Dallas temperature ICs) 
+OneWire oneWire(ONE_WIRE_BUS); 
+/********************************************************************/
+// Pass our oneWire reference to Dallas Temperature. 
+DallasTemperature sensors(&oneWire);
+/********************************************************************/ 
+
+
+/********************************************************************/
+/*                      LUX Sensor Setup                            */
+/********************************************************************/
+Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
+
+
 
 void onEvent (ev_t ev) {
     //Serial.print(os_getTime());
@@ -142,18 +171,53 @@ void do_send(osjob_t* j){
         //Serial.print("OP_TXRXPEND, not sending; at freq: ");
         //Serial.println(LMIC.freq);        
     } else {
+        uint16_t int_temp, int_lux;
         // Prepare upstream data transmission at the next possible time.
         //LMIC_setTxData2(1, mydata, sizeof(mydata)-1, 0);
         digitalWrite(13, HIGH); 
-        si7021_env data = sensor.getHumidityAndTemperature();
-    Serial.print("temp = "); 
-    Serial.println(data.celsiusHundredths/100);
-    
- 
-    Serial.print("humidity = ");
-    Serial.println(data.humidityBasisPoints/100);
-        mydata[0]=data.celsiusHundredths/100;
-        mydata[1]=data.humidityBasisPoints/100;
+        sensors.requestTemperatures(); // Send the command to get temperature readings  
+        
+        /********************************************************************/
+        /*                         WP Temp sensor                           */
+        int_temp = (uint16_t)(sensors.getTempCByIndex(0)*100);
+        //Serial.print("Temperature is: "); 
+        //Serial.println(int_temp/100);
+        
+        mydata[0] = (uint8_t)(int_temp >> 8);
+        mydata[1] = (uint8_t)(int_temp & 0xFF);
+        
+        
+        /*temp = (mydata[0] << 8 | mydata[1]);    
+        Serial.print("Temperature from uint8_t array: "); 
+        Serial.println(temp/100);
+        */
+        Serial.println("");
+        /********************************************************************/
+        /*                         LUX Sensor                               */
+        sensors_event_t event;
+        tsl.getEvent(&event);
+       
+        /* Display the results (light is measured in lux) */
+        if (event.light)
+        {
+          /*
+          Serial.print("Lux is :"); 
+          Serial.println(event.light); 
+          Serial.println("");*/
+          int_lux = (event.light*100)
+          mydata[2] = (uint8_t)(int_lux >> 8);
+          mydata[3] = (uint8_t)(int_lux & 0xFF);
+        }
+        else
+        {
+          /* If event.light = 0 lux the sensor is probably saturated
+             and no reliable data could be generated! */
+          Serial.println("Sensor overload");
+        }
+        
+        //mydata[0]=data.celsiusHundredths/100;
+        //mydata[1]=data.humidityBasisPoints/100;
+       
        LMIC_setTxData2(1, mydata, sizeof(mydata), 0); 
           
         
@@ -165,12 +229,12 @@ void do_send(osjob_t* j){
 }
 
 void setup() {
-    //Serial.begin(115200);
-    //while (!Serial);
-    //Serial.println(F("Starting"));
+    Serial.begin(9600);
+    while (!Serial);
+    Serial.println(F("Starting"));
     pinMode(13, OUTPUT);           // set pin to input
         
-    sensor.begin();
+    sensors.begin();
     
     
     // LMIC init
