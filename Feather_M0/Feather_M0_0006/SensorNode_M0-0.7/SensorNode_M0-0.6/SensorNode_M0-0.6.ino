@@ -56,10 +56,10 @@ void os_getDevEui (u1_t* buf) { }
 void os_getDevKey (u1_t* buf) { }
 
 //static uint8_t mydata[] = "Hello, world!?";
-uint8_t mydata[5];
+//Standard format for server to recieve for up to 8 sensors
+uint8_t mydata[12] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
-//Set Project ID
-mydata[4] = 2;
+
 
 static osjob_t sendjob;
 
@@ -79,8 +79,8 @@ const lmic_pinmap lmic_pins = {
 /*                  Waterproof Sensor Setup                         */
 /********************************************************************/
 
-// Data wire is plugged into pin 13 on the Arduino 
-#define ONE_WIRE_BUS 13
+// Data wire is plugged into pin 12 on the Arduino 
+#define ONE_WIRE_BUS 12
 /********************************************************************/
 // Setup a oneWire instance to communicate with any OneWire devices  
 // (not just Maxim/Dallas temperature ICs) 
@@ -183,8 +183,8 @@ void do_send(osjob_t* j){
         //Serial.print("Temperature is: "); 
         //Serial.println(int_temp/100);
         
-        mydata[0] = (uint8_t)(int_temp >> 8);
-        mydata[1] = (uint8_t)(int_temp & 0xFF);
+        mydata[2] = (uint8_t)(int_temp >> 8);
+        mydata[3] = (uint8_t)(int_temp & 0xFF);
         
         
         /*temp = (mydata[0] << 8 | mydata[1]);    
@@ -204,9 +204,9 @@ void do_send(osjob_t* j){
           Serial.print("Lux is :"); 
           Serial.println(event.light); 
           Serial.println("");*/
-          int_lux = (event.light*100)
-          mydata[2] = (uint8_t)(int_lux >> 8);
-          mydata[3] = (uint8_t)(int_lux & 0xFF);
+          int_lux = (event.light);
+          mydata[4] = (uint8_t)(int_lux >> 8);
+          mydata[5] = (uint8_t)(int_lux & 0xFF);
         }
         else
         {
@@ -235,7 +235,11 @@ void setup() {
     pinMode(13, OUTPUT);           // set pin to input
         
     sensors.begin();
-    
+
+    //Set Project ID
+    mydata[0] = 1;
+    //Set Location ID
+    mydata[1] = 1;
     
     // LMIC init
     os_init();
