@@ -173,6 +173,7 @@ void do_send(osjob_t* j){
     } else {
         uint16_t int_temp, int_lux;
         float temp;
+        int lux;
         // Prepare upstream data transmission at the next possible time.
         //LMIC_setTxData2(1, mydata, sizeof(mydata)-1, 0);
         digitalWrite(13, HIGH); 
@@ -188,7 +189,7 @@ void do_send(osjob_t* j){
         mydata[3] = (uint8_t)(int_temp & 0xFF);
         
         
-        temp = (mydata[0] << 8 | mydata[1]);    
+        temp = (mydata[2] << 8 | mydata[3]);    
         Serial.print("Temperature from uint8_t array: "); 
         Serial.println(temp/100);
         
@@ -201,13 +202,16 @@ void do_send(osjob_t* j){
         /* Display the results (light is measured in lux) */
         if (event.light)
         {
-          /*
           Serial.print("Lux is :"); 
           Serial.println(event.light); 
-          Serial.println("");*/
+          Serial.println("");
           int_lux = (event.light);
           mydata[4] = (uint8_t)(int_lux >> 8);
           mydata[5] = (uint8_t)(int_lux & 0xFF);
+          lux = (mydata[4] << 8 | mydata[5]);
+          Serial.print("Lux from array is :"); 
+          Serial.println(lux); 
+          Serial.println("");
         }
         else
         {
@@ -238,9 +242,9 @@ void setup() {
     sensors.begin();
 
     //Set Project ID
-    mydata[0] = 1;
+    mydata[0] = 2;
     //Set Location ID
-    mydata[1] = 1;
+    mydata[1] = 2;
     
     // LMIC init
     os_init();

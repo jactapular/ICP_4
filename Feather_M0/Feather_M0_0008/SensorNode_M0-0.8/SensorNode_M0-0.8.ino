@@ -180,8 +180,8 @@ void do_send(osjob_t* j){
         /********************************************************************/
         /*                         WP Temp sensor                           */
         int_temp = (uint16_t)(sensors.getTempCByIndex(0)*100);
-        Serial.print("Temperature is: "); 
-        Serial.println(int_temp/100);
+        //Serial.print("Temperature is: "); 
+        //Serial.println(int_temp/100);
         
         mydata[2] = (uint8_t)(int_temp >> 8);
         mydata[3] = (uint8_t)(int_temp & 0xFF);
@@ -237,9 +237,9 @@ void setup() {
     sensors.begin();
 
     //Set Project ID
-    mydata[0] = 1;
+    mydata[0] = 2;
     //Set Location ID
-    mydata[1] = 1;
+    mydata[1] = 2;
     
     // LMIC init
     os_init();
