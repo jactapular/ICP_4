@@ -56,8 +56,8 @@ void os_getDevEui (u1_t* buf) { }
 void os_getDevKey (u1_t* buf) { }
 
 //static uint8_t mydata[] = "Hello, world!?";
-//Standard format for server to recieve for up to 8 sensors
-uint8_t mydata[12] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+//Standard format for server to recieve for up to 6 sensors
+uint8_t mydata[14] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
 
 
@@ -180,18 +180,19 @@ void do_send(osjob_t* j){
         /********************************************************************/
         /*                         WP Temp sensor                           */
         int_temp = (uint16_t)(sensors.getTempCByIndex(0)*100);
+        //float temp;
         //Serial.print("Temperature is: "); 
         //Serial.println(int_temp/100);
         
         mydata[2] = (uint8_t)(int_temp >> 8);
         mydata[3] = (uint8_t)(int_temp & 0xFF);
         
-        
-        /*temp = (mydata[0] << 8 | mydata[1]);    
+        /*        
+        temp = (mydata[2] << 8 | mydata[3]);    
         Serial.print("Temperature from uint8_t array: "); 
         Serial.println(temp/100);
         */
-        Serial.println("");
+        //Serial.println("");
         /********************************************************************/
         /*                         LUX Sensor                               */
         sensors_event_t event;
@@ -200,10 +201,10 @@ void do_send(osjob_t* j){
         /* Display the results (light is measured in lux) */
         if (event.light)
         {
-          /*
-          Serial.print("Lux is :"); 
-          Serial.println(event.light); 
-          Serial.println("");*/
+          
+          //Serial.print("Lux is :"); 
+          //Serial.println(event.light); 
+          //Serial.println("");
           int_lux = (event.light);
           mydata[4] = (uint8_t)(int_lux >> 8);
           mydata[5] = (uint8_t)(int_lux & 0xFF);
@@ -212,14 +213,10 @@ void do_send(osjob_t* j){
         {
           /* If event.light = 0 lux the sensor is probably saturated
              and no reliable data could be generated! */
-          Serial.println("Sensor overload");
+          //Serial.println("Sensor overload");
         }
         
-        //mydata[0]=data.celsiusHundredths/100;
-        //mydata[1]=data.humidityBasisPoints/100;
-       
-       LMIC_setTxData2(1, mydata, sizeof(mydata), 0); 
-          
+       LMIC_setTxData2(1, mydata, sizeof(mydata), 0);   
         
         //Serial.println(mydata[0]);
         //Serial.print(F("Packet queued for freq: "));
@@ -229,9 +226,9 @@ void do_send(osjob_t* j){
 }
 
 void setup() {
-    Serial.begin(9600);
-    while (!Serial);
-    Serial.println(F("Starting"));
+    //Serial.begin(9600);
+    //while (!Serial);
+    //Serial.println(F("Starting"));
     pinMode(13, OUTPUT);           // set pin to input
         
     sensors.begin();

@@ -10,7 +10,8 @@ packet = json.loads(request.data)
 aio = Client('d361959719e34664a85846131b80457c')
 
 ambtemp = packet["DevEUI_uplink"]["payload_hex"]
-    val = float(int(ambtemp, 16))
+#must multiply data by 100 on arduino end
+    val = float(int(ambtemp, 16))/100
 
 # Add the value 98.6 to the feed 'Temperature'.
 aio.send('temp-readings.ambient-air-temp', val)

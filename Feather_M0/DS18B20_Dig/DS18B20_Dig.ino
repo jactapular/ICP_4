@@ -4,7 +4,7 @@
 #include <DallasTemperature.h>
 /********************************************************************/
 // Data wire is plugged into pin 13 on the Arduino 
-#define ONE_WIRE_BUS 13
+#define ONE_WIRE_BUS 12
 /********************************************************************/
 // Setup a oneWire instance to communicate with any OneWire devices  
 // (not just Maxim/Dallas temperature ICs) 
