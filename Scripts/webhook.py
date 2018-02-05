@@ -15,7 +15,7 @@ time = strftime('%Y-%m-%d %H:%M:%S')
 #may be in the wrong format ie  2017-07-20T07:13:24.40+02:00
 #time = request.data["DevEUI_uplink"]["Time"]
 
-pl = request.data["DevEUI_uplink"]["payload_hex"]
+pl =  packet["DevEUI_uplink"]["payload_hex"]
 
 #ProjectID
 pID = (int(pl[0:2], 16))

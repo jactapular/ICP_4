@@ -32,6 +32,7 @@
 #include <DallasTemperature.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_TSL2561_U.h>
+#include "config.h"
 
 // LoRaWAN NwkSKey, network session key
 // This is the default Semtech key, which is used by the prototype TTN
@@ -45,7 +46,7 @@ static const u1_t PROGMEM APPSKEY[16] = { 0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0x
 
 // LoRaWAN end-device address (DevAddr)
 // See http://thethingsnetwork.org/wiki/AddressSpace https://www.thethingsnetwork.org/wiki/LoRaWAN/Address-Space
-static const u4_t DEVADDR = 0x00540006; //0x00540005;//0x03FF0001 ; // <-- Change this address for every node!
+//static const u4_t DEVADDR = 0x00540006; Define in config file
 
 // These callbacks are only used in over-the-air activation, so they are
 // left empty here (we cannot leave them out completely unless
@@ -65,7 +66,7 @@ static osjob_t sendjob;
 
 // Schedule TX every this many seconds (might become longer due to duty
 // cycle limitations).
-const unsigned TX_INTERVAL = 60;
+//const unsigned TX_INTERVAL = 60; Define in config.h
 
 // Pin mapping
 const lmic_pinmap lmic_pins = {
@@ -237,9 +238,9 @@ void setup() {
     sensors.begin();
 
     //Set Project ID
-    mydata[0] = 2;
+    mydata[0] = PROJID;
     //Set Location ID
-    mydata[1] = 2;
+    mydata[1] = LOCID;
     
     // LMIC init
     os_init();

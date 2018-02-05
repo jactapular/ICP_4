@@ -1,8 +1,7 @@
 SELECT 
-	unitID 'Unit ID', 
-    dt AS 'Date Time', 
-    ProjID AS 'Proj ID', 
-    valOne AS 'Temperature', 
+	unitID 'UnitID', 
+    dt AS 'Time', 
+    valOne AS 'Temp', 
     valTwo AS 'Light' 
 FROM Reading 
 WHERE projID = 2;
