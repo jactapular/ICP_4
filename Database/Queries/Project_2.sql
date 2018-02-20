@@ -4,4 +4,4 @@ SELECT
     valOne AS 'Temp', 
     valTwo AS 'Light' 
 FROM Reading 
-WHERE projID = 2;
+WHERE projID = 8;

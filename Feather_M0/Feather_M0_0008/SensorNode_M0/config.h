@@ -5,14 +5,14 @@
 *		Available Device addresses are 0x00540006, 0x00540008 and 0x00540008
 */
 
-#define PROJID 3
+#define PROJID 8
 
-#define LOCID 2
+#define LOCID 1 //This time it's composite rubber
 
 #ifndef DEVADDR
 #define DEVADDR 0x00540008
 #endif
 
 #ifndef TX_INTERVAL
-#define TX_INTERVAL 60
+#define TX_INTERVAL 120
 #endif
